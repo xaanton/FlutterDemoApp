@@ -5,8 +5,8 @@ import 'dart:io';
 
 String url = 'https://api.github.com/users';
 
-Future<List<User>> getAllUsers() async {
-  final response = await http.get(url);
+Future<List<User>> getAllUsers(int since) async {
+  final response = await http.get(url + "?since=" + since.toString());
   print(response.body);
   return allUsersFromJson(response.body);
 }

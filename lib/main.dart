@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'github_user.dart';
 import 'github_user_service.dart';
 import 'dart:math';
+import 'package:rxdart/rxdart.dart';
 
 void main() => runApp(MyApp());
 
@@ -35,8 +36,13 @@ class StatefulRow extends StatefulWidget {
   _StatefulRowState createState() => _StatefulRowState();
 }
 
-class _StatefulRowState extends State<StatefulRow> {
+class _StatefulRowStateEmpty extends _StatefulRowState {
+  Widget build(BuildContext context) {
+    return new RefreshProgressIndicator();
+  }
+}
 
+class _StatefulRowStateUser extends _StatefulRowState {
   User _user;
 
   Widget build(BuildContext context) {
@@ -62,14 +68,27 @@ class _StatefulRowState extends State<StatefulRow> {
           ),
         ),
         Expanded(
-          flex: 4,
+          flex: 3,
           child: Container(
-            color: Colors.blue[200],
-            child: Text(user.login),
+            //color: Colors.blue[200],
+            child: Text(user.login,style: TextStyle(fontSize: 20.0, fontStyle: FontStyle.normal, color: Colors.teal)),
           ),
         ),
         Expanded(
-          flex: 2,
+          flex: 1,
+          child: Container(
+            padding: EdgeInsets.all(5),
+            child: FlatButton(
+                color: Colors.purple[100],
+                onPressed: () => {setState(() {
+                  _user = getRandomUser();
+                })} ,
+                child: Icon(Icons.refresh)
+            ),
+          ),
+        ),
+        Expanded(
+          flex: 1,
           child: Container(
             padding: EdgeInsets.all(5),
             child: FlatButton(
@@ -86,17 +105,48 @@ class _StatefulRowState extends State<StatefulRow> {
   }
 }
 
+class _StatefulRowState extends State<StatefulRow> {
+  Widget build(BuildContext context) {
+    return new RefreshProgressIndicator();
+  }
+}
+
 class _MyHomePageState extends State<MyHomePage> {
 
-  int _userNumber = 5;
-
+  static final int _userNumber = 5;
   List<User> _userList = new List<User>();
 
+  /*
   Future<void> _setUsers() async {
-    var userList = await getAllUsers();
+    var userList = await getAllUsers(getRandomNumber());
     setState(() {
       _userList = userList;
     });
+  }
+  */
+
+  void _setUsersRx() {
+    new Observable(_getUsersRx()).listen((newUserList) => {
+      setState(() {
+        _userList = newUserList;
+      })
+    });
+  }
+
+  static Stream<List<User>> _getUsersRx() async* {
+    try {
+      final userList = await getAllUsers(getRandomNumber());
+      yield userList;
+    } catch (e) {
+      print(e.toString());
+      yield new List<User>();
+    }
+  }
+
+  static int getRandomNumber() {
+    var rng = new Random();
+    //print(rng.nextInt(100));
+    return rng.nextInt(1000);
   }
 
   Column getUserListRows() {
@@ -125,7 +175,7 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _setUsers,
+        onPressed: _setUsersRx,
         tooltip: 'Increment',
         child: Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.
