@@ -2,14 +2,26 @@ import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'github_user.dart';
 import 'dart:io';
+import 'data_provider.dart';
+import 'url_provider_sevice.dart';
 
-String url = 'https://api.github.com/users';
 
-Future<List<User>> getAllUsers(int since) async {
-  final response = await http.get(url + "?since=" + since.toString());
-  print(response.body);
-  return allUsersFromJson(response.body);
+class UsersApiDataProvider extends UsersDataProvider{
+
+  final UrlProvider _urlProvider;
+
+  UsersApiDataProvider( this._urlProvider ) ;
+
+  Future<List<User>> getAllUsers(int since) async {
+    final response = await http.get(_urlProvider.getGithubUsersApiUrl() + "?since=" + since.toString());
+    print(response.body);
+    return allUsersFromJson(response.body);
+  }
+
 }
+
+
+
 
 
 /*

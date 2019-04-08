@@ -2,11 +2,17 @@ import 'package:flutter/material.dart';
 import 'dart:math';
 import 'users_state.dart';
 import 'users_bloc.dart';
+import 'users_module.dart';
 import 'users_bloc_result_widget.dart';
 import 'users_bloc_loading_widget.dart';
 import 'users_bloc_empty_widget.dart';
+import 'locator.dart';
 
-void main() => runApp(MyApp());
+SampleLocator services;
+
+void main() => runApp(
+    MyApp()
+);
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
@@ -39,7 +45,16 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     super.initState();
-    bloc = UsersBloc();
+    bloc = UsersBloc(provider: null);
+    setUpState();
+  }
+
+  Future<void> setUpState() async {
+    services = await SampleLocator.create(ServiceProvider());
+    var newBloc = UsersBloc(provider: services.getUsersDataProvider());
+    setState(() {
+      bloc = newBloc;
+    });
   }
 
   @override
