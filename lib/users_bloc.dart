@@ -26,15 +26,14 @@ class UsersBloc {
     onGetNewUsers.close();
   }
 
-  static Stream<UsersState> _search(int term) async* {
+  static Stream<UsersState> _search(int since) async* {
     try {
       yield UsersLoading();
-      final result = await source.getData();
+      final result = await getAllUsers(since);
       print(result);
       yield UsersPopulated(result);
     } catch (e) {
       yield UsersError();
     }
-
   }
 }
