@@ -6,9 +6,8 @@ import 'users_module.dart';
 import 'users_bloc_result_widget.dart';
 import 'users_bloc_loading_widget.dart';
 import 'users_bloc_empty_widget.dart';
-import 'locator.dart';
-
-SampleLocator services;
+import 'users_module.dart';
+import 'package:flutter_simple_dependency_injection/injector.dart';
 
 void main() => runApp(
     MyApp()
@@ -45,16 +44,8 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     super.initState();
-    bloc = UsersBloc(provider: null);
-    setUpState();
-  }
-
-  Future<void> setUpState() async {
-    services = await SampleLocator.create(ServiceProvider());
-    var newBloc = UsersBloc(provider: services.getUsersDataProvider());
-    setState(() {
-      bloc = newBloc;
-    });
+    final injector = ServiceProvider().initialise(Injector.getInjector());
+    bloc = UsersBloc(provider: injector.get(key: "users_provider"));
   }
 
   @override
