@@ -7,7 +7,7 @@ class ServiceProvider{
   Injector initialise(Injector injector) {
     //injector.map<Logger>((i) => Logger(), isSingleton: true);
     injector.map<UrlProvider>((i) => UrlProvider(), isSingleton: true); 
-    injector.map<UsersApiDataProvider>((i) => UsersApiDataProvider(i.get<UrlProvider>()), key:"users_provider");
+    injector.map<UsersApiDataProvider>((i) => new UsersApiDataProvider(i.get<UrlProvider>()), key:"users_provider");
     return injector;
   }
 }

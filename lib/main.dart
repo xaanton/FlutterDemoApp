@@ -9,7 +9,9 @@ import 'users_bloc_empty_widget.dart';
 import 'users_module.dart';
 import 'package:flutter_simple_dependency_injection/injector.dart';
 
+final injector = ServiceProvider().initialise(Injector.getInjector());
 void main() => runApp(
+
     MyApp()
 );
 
@@ -44,7 +46,6 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     super.initState();
-    final injector = ServiceProvider().initialise(Injector.getInjector());
     bloc = UsersBloc(provider: injector.get(key: "users_provider"));
   }
 
