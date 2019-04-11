@@ -11,7 +11,6 @@ import 'package:flutter_simple_dependency_injection/injector.dart';
 
 final injector = ServiceProvider().initialise(Injector.getInjector());
 void main() => runApp(
-
     MyApp()
 );
 

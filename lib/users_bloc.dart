@@ -10,7 +10,6 @@ class UsersBloc {
   final Stream<UsersState> state;
 
   factory UsersBloc({UsersApiDataProvider provider}) {
-    print("test");
     final onGetNewUsers = PublishSubject<int>();
 
     final state = onGetNewUsers
@@ -28,10 +27,8 @@ class UsersBloc {
   }
 
   static Stream<UsersState> _search(int since, {UsersApiDataProvider provider}) async* {
-    print("search");
     if(provider != null) {
       try {
-        print("search");
         yield UsersLoading();
         final result = await provider.getAllUsers(since);
         print(result);
