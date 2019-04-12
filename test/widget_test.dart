@@ -17,6 +17,7 @@ import 'package:test_app/users_bloc_result_widget.dart';
 import 'package:test_app/users_bloc_empty_widget.dart';
 
 void main() {
+  print("Widgets Tests started ");
   testWidgets('Initial display test', (WidgetTester tester) async {
     // Build our app and trigger a frame.
     await tester.pumpWidget(MyApp());
@@ -33,4 +34,5 @@ void main() {
     //await tester.tap(find.byIcon(Icons.add));
     //await tester.pump();
   });
+  print("Widgets Tests finished ");
 }

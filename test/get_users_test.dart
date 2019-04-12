@@ -20,6 +20,7 @@ class UsersProviderMock extends Mock implements UsersDataProvider{
 }
 
 void main() {
+  print("Rx Tests started ");
   group('getUsers', () {
     test('getUsersPopulated', () async {
       final usersProvider = UsersProviderMock();
@@ -67,4 +68,5 @@ void main() {
     });
 
   });
+  print("Rx Tests finished ");
 }
