@@ -52,7 +52,7 @@ class _MyHomePageState extends State<MyHomePage> {
   _MyHomePageState(this.analytics, this.observer);
 
   UsersBloc bloc;
-  String _message = '';
+  String _message = 'Click button to get suggestions';
   static final int _userNumber = 5;
   final FirebaseAnalyticsObserver observer;
   final FirebaseAnalytics analytics;
@@ -60,7 +60,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     super.initState();
-    bloc = UsersBloc(provider: injector.get(key: "users_provider"));
+    bloc = UsersBloc(injector.get(key: "users_provider"));
   }
 
   @override

@@ -10,21 +10,27 @@ import 'package:flutter_test/flutter_test.dart';
 
 import 'package:test_app/main.dart';
 
+import 'dart:io';
+
+import 'package:test_app/users_bloc_loading_widget.dart';
+import 'package:test_app/users_bloc_result_widget.dart';
+import 'package:test_app/users_bloc_empty_widget.dart';
+
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
+  testWidgets('Initial display test', (WidgetTester tester) async {
     // Build our app and trigger a frame.
     await tester.pumpWidget(MyApp());
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
+    //expect(find.byElementType(FloatingActionButton, skipOffstage:false), findsOneWidget);
+    expect(find.byType(FloatingActionButton), findsOneWidget);
+    expect(find.byType(UsersBlocLoadingWidget), findsOneWidget);
+    expect(find.byType(UsersBlocResultWidget), findsOneWidget);
+    expect(find.byType(UsersBlocEmptyWidget), findsOneWidget);
+    expect(find.text('Click button to get suggestions'), findsOneWidget);
+    expect(find.text('Get user event sent to analytics'), findsNothing);
 
     // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
-
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+    //await tester.tap(find.byIcon(Icons.add));
+    //await tester.pump();
   });
 }

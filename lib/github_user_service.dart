@@ -6,7 +6,7 @@ import 'data_provider.dart';
 import 'url_provider_sevice.dart';
 
 
-class UsersApiDataProvider{
+class UsersApiDataProvider implements UsersDataProvider{
 
   final UrlProvider _urlProvider;
 

@@ -10,13 +10,13 @@ class UsersBloc {
   final Sink<int> onGetNewUsers;
   final Stream<UsersState> state;
 
-  factory UsersBloc({UsersApiDataProvider provider}) {
+  factory UsersBloc(UsersDataProvider provider) {
     final onGetNewUsers = PublishSubject<int>();
 
     final state = onGetNewUsers
         .debounce(const Duration(milliseconds: 250))
         .switchMap<UsersState>((int since) => _search(since, provider: provider))
-        .startWith(UsersLoading());
+        .startWith(UsersEmpty());
     onGetNewUsers.add(1);
 
     return UsersBloc._(onGetNewUsers, state);
@@ -28,15 +28,21 @@ class UsersBloc {
     onGetNewUsers.close();
   }
 
-  static Stream<UsersState> _search(int since, {UsersApiDataProvider provider}) async* {
+  static Stream<UsersState> _search(int since, {UsersDataProvider provider}) async* {
 
     if(provider != null) {
       try {
         yield UsersLoading();
         final result = await provider.getAllUsers(since);
-        print(result);
-        yield UsersPopulated(result);
+
+        if(result.isEmpty){
+          yield UsersEmpty();
+        } else {
+          yield UsersPopulated(result);
+        }
+
       } catch (e) {
+        print(e.toString());
         yield UsersError();
       }
     } else {
