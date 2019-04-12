@@ -1,4 +1,4 @@
-package com.example.test_app;
+package com.example.rx_test_app;
 
 import android.os.Bundle;
 import io.flutter.app.FlutterActivity;
