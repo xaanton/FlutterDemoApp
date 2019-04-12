@@ -10,8 +10,6 @@ import 'package:flutter_test/flutter_test.dart';
 
 import 'package:test_app/main.dart';
 
-import 'dart:io';
-
 import 'package:test_app/users_bloc_loading_widget.dart';
 import 'package:test_app/users_bloc_result_widget.dart';
 import 'package:test_app/users_bloc_empty_widget.dart';
@@ -34,5 +32,4 @@ void main() {
     //await tester.tap(find.byIcon(Icons.add));
     //await tester.pump();
   });
-  print("Widgets Tests finished ");
 }

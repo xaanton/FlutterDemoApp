@@ -68,5 +68,4 @@ void main() {
     });
 
   });
-  print("Rx Tests finished ");
 }
